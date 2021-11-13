@@ -13,6 +13,7 @@ const Facility = conn.define("facility", {
   fac_name: {
     type: STRING,
     allowNull: false,
+    unique: true,
   },
 });
 
@@ -25,6 +26,7 @@ const Member = conn.define("member", {
   first_name: {
     type: STRING,
     allowNull: false,
+    unique: true,
   },
 });
 
@@ -77,20 +79,17 @@ const syncAndSeed = async () => {
         startTime: new Date("2020-01-10T11:30:00"),
         endTime: new Date("2020-01-10T13:30:00"),
       }),
-      MemberBooking.create({
-        memberId: lucy.id,
-      }),
-      MemberBooking.create({
-        memberId: moe.id,
-      }),
-      MemberBooking.create({
-        memberId: lucy.id,
-      }),
+      MemberBooking.create({}),
+      MemberBooking.create({}),
+      MemberBooking.create({}),
     ]);
     await Promise.all([
       larry.update({ sponsorId: lucy.id }),
       moe.update({ sponsorId: lucy.id }),
       ethyl.update({ sponsorId: moe.id }),
+      mb1.update({ memberId: lucy.id }),
+      mb2.update({ memberId: moe.id }),
+      mb3.update({ memberId: lucy.id }),
       mb1.update({ bookingId: book1.id }),
       mb2.update({ bookingId: book1.id }),
       mb3.update({ bookingId: book2.id }),
